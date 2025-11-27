@@ -1,0 +1,265 @@
+---
+import { getCollection } from "astro:content";
+
+const collectionCards = await getCollection("cards");
+
+const cards = collectionCards.flatMap((c) => c.data);
+---
+
+<card-deck data-cards={JSON.stringify(cards)}>
+  <div id="card-container"></div>
+
+  <div class="mb-8">
+    <button
+      id="next-card-btn"
+      type="button"
+      class="-mt-2 inline-flex w-full items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border text-neutral-100 dark:text-neutral-900 bg-neutral-900 dark:bg-neutral-100 shadow-xs dark:hover:bg-neutral-200 hover:bg-neutral-800 border-transparent h-10 px-6 py-2 has-[>svg]:px-4">
+      <span>Next card</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        ><path d="M21 4v16"></path><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"></path></svg
+      >
+    </button>
+  </div>
+  <div class="flex items-center justify-center mb-4">
+    <div class="progress-ring inline-flex items-center justify-center relative">
+      <svg class="size-32 -rotate-90 origin-[50%_50%] content">
+        <text x="50%" y="33%" text-anchor="middle" class="font-bold text-4xl fill-current/70" transform="rotate(90 50 50)">45s</text>
+        <circle class="track"></circle>
+        <circle class="indicator"></circle>
+      </svg>
+
+      <div class="absolute top-[85%] left-1/2 -translate-x-1/2 -translate-y-[85%]">
+        <button
+          id="timer-btn"
+          type="button"
+          data-timer-state="stop"
+          class="group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all cursor-pointer disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] shadow-xs bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 hover:bg-neutral-200 size-9">
+          <svg
+            class="fill-current group-data-[timer-state=stop]:block hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path></svg
+          >
+          <svg
+            class="fill-current group-data-[timer-state=play]:block hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"></rect></svg
+          >
+          <svg
+            class="stroke-red-500 group-data-[timer-state=alarm]:block hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M22 8c0-2.3-.8-4.3-2-6"></path><path
+              d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path><path d="M4 2C2.8 3.7 2 5.7 2 8"></path></svg
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <template id="card-template">
+    <article class="rounded-t-lg max-w-md dark:bg-neutral-800 bg-neutral-200 mb-0">
+      <div class="p-8">
+        <div
+          id="bg-type"
+          class="inline-flex items-center justify-center rounded-full border -ml-1 mb-3 px-2 py-0.5 text-xs text-neutral-100 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] overflow-hidden border-transparent">
+          <span id="type" class="text-neutral-100 uppercase font-medium tracking-wider"></span>
+        </div>
+
+        <p class="text-sm"><strong>RULE:</strong> <span id="rule"></span></p>
+      </div>
+
+      <div id="bg-topic" class="min-h-64 w-full p-4 flex items-center justify-center relative">
+        <div id="blurred-backdrop" class="backdrop-blur-md inset-0 absolute bg-black/70">
+          <div class="flex items-center justify-center h-full">
+            <button
+              id="reveal-btn"
+              type="button"
+              class="inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-neutral-100/50 dark:bg-neutral-900/50 shadow-xs dark:hover:bg-neutral-800 hover:bg-neutral-200 h-9 px-4 py-2 has-[>svg]:px-3"
+              >Reveal</button
+            >
+          </div>
+        </div>
+        <h3 id="topic" class="capitalize text-neutral-100 font-bold text-3xl text-pretty text-center"></h3>
+      </div>
+
+      <div class="p-8">
+        <p class="text-sm"><strong>SCORING:</strong> <span id="scoring"></span></p>
+      </div>
+    </article>
+  </template>
+</card-deck>
+
+<script>
+  import { GAME_RULES } from "@constants";
+  import type { Card } from "@content.config";
+
+  class CardDeck extends HTMLElement {
+    cards: Card[] = [];
+    template!: HTMLTemplateElement;
+    nextCardBtn!: HTMLButtonElement;
+    cardContainer!: HTMLDivElement;
+    index = 0;
+    shuffled: Card[] = [];
+
+    connectedCallback() {
+      const raw = this.dataset.cards;
+      if (!raw) throw new Error("Missing data-cards attribute");
+
+      this.cards = JSON.parse(raw) as Card[];
+      this.cardContainer = this.querySelector("#card-container") as HTMLDivElement;
+      this.nextCardBtn = this.querySelector("#next-card-btn") as HTMLButtonElement;
+      this.template = this.querySelector("#card-template") as HTMLTemplateElement;
+
+      this.shuffled = this.shuffle([...this.cards]);
+      this.index = 0;
+      this.renderCard();
+      this.nextCardBtn.addEventListener("click", () => this.renderCard());
+    }
+
+    shuffle<T>(array: T[]): T[] {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    getNextCard(): Card {
+      if (this.index >= this.shuffled.length) {
+        this.index = 0;
+        this.shuffled = this.shuffle([...this.cards]);
+      }
+      return this.shuffled[this.index++];
+    }
+
+    renderCard() {
+      const card = this.getNextCard();
+
+      const node = this.template.content.cloneNode(true) as HTMLElement;
+
+      (node.querySelector("#type") as HTMLSpanElement).textContent = card.type;
+      (node.querySelector("#topic") as HTMLHeadingElement).textContent = card.topic;
+      (node.querySelector("#rule") as HTMLSpanElement).innerHTML = GAME_RULES[card.type].rule;
+      (node.querySelector("#scoring") as HTMLSpanElement).innerHTML = GAME_RULES[card.type].scoring;
+
+      const bgType = node.querySelector("#bg-type") as HTMLDivElement;
+
+      bgType.classList.remove("bg-green-700", "bg-purple-900", "bg-amber-600");
+      if (card.type === "common") {
+        bgType.classList.add("bg-green-700");
+      } else if (card.type === "rare") {
+        bgType.classList.add("bg-purple-900");
+      } else {
+        bgType.classList.add("bg-amber-600");
+      }
+
+      const bgTopic = node.querySelector("#bg-topic") as HTMLDivElement;
+      bgTopic.classList.remove("bg-green-700", "bg-purple-900", "bg-amber-600");
+
+      if (card.type === "common") {
+        bgTopic.classList.add("bg-green-700");
+      } else if (card.type === "rare") {
+        bgTopic.classList.add("bg-purple-900");
+      } else {
+        bgTopic.classList.add("bg-amber-600");
+      }
+
+      const blurredBackdrop = node.querySelector("#blurred-backdrop") as HTMLDivElement;
+      const revealBtn = node.querySelector("#reveal-btn") as HTMLButtonElement;
+
+      blurredBackdrop.classList.remove("hidden");
+
+      revealBtn.addEventListener("click", () => {
+        blurredBackdrop.classList.add("hidden");
+      });
+
+      this.cardContainer.innerHTML = "";
+      this.cardContainer.appendChild(node);
+    }
+  }
+
+  customElements.define("card-deck", CardDeck);
+
+  // Timer
+  const timerBtn = document.querySelector("#timer-btn") as HTMLButtonElement;
+  const ring = document.querySelector(".progress-ring") as HTMLElement;
+  const svg = ring.querySelector("svg") as SVGElement;
+  const alarm = new Audio("/danger-alarm.mp3");
+
+  let textEl = svg.querySelector("text") as SVGTextElement;
+
+  let intervalId: number | null = null;
+
+  function resetTimer() {
+    if (intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+
+    alarm.pause();
+    alarm.currentTime = 0;
+
+    ring.style.setProperty("--percentage", "1");
+    textEl.textContent = "45s";
+    timerBtn.dataset.timerState = "stop";
+  }
+
+  function startCountdown(duration: number) {
+    let remaining = duration;
+
+    ring.style.setProperty("--percentage", "1");
+    textEl.textContent = `${remaining}s`;
+
+    intervalId = window.setInterval(() => {
+      remaining--;
+
+      const pct = remaining / duration;
+      ring.style.setProperty("--percentage", pct.toString());
+
+      textEl.textContent = `${remaining}s`;
+
+      if (remaining <= 0) {
+        clearInterval(intervalId!);
+        ring.style.setProperty("--percentage", "0");
+        textEl.textContent = "0s";
+
+        alarm.play();
+        timerBtn.dataset.timerState = "alarm";
+
+        alarm.addEventListener(
+          "ended",
+          () => {
+            resetTimer();
+          },
+          { once: true }
+        );
+      }
+    }, 1000);
+    timerBtn.dataset.timerState = "play";
+  }
+
+  timerBtn.addEventListener("click", () => {
+    if (intervalId !== null || timerBtn.dataset.timerState === "alarm") {
+      resetTimer();
+    } else {
+      startCountdown(45);
+    }
+  });
+</script>

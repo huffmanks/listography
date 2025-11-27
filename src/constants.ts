@@ -18,5 +18,3 @@ export const GAME_RULES = {
     scoring: "Get <strong><u>ONE point</u></strong> for every valid answer that no other player wrote.",
   },
 };
-
-export const LS_KEY_THEME = "listography_theme";
