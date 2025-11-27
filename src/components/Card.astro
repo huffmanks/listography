@@ -111,7 +111,7 @@ const cards = collectionCards.flatMap((c) => c.data);
 </card-deck>
 
 <script>
-  import { GAME_RULES } from "@constants";
+  import { GAME_RULES, SITE_CONFIG } from "@constants";
   import type { Card } from "@content.config";
 
   class CardDeck extends HTMLElement {
@@ -215,6 +215,9 @@ const cards = collectionCards.flatMap((c) => c.data);
 
     alarm.pause();
     alarm.currentTime = 0;
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = null;
+    }
 
     ring.style.setProperty("--percentage", "1");
     textEl.textContent = "45s";
@@ -240,26 +243,41 @@ const cards = collectionCards.flatMap((c) => c.data);
         ring.style.setProperty("--percentage", "0");
         textEl.textContent = "0s";
 
-        alarm.play();
-        timerBtn.dataset.timerState = "alarm";
-
-        alarm.addEventListener(
-          "ended",
-          () => {
-            resetTimer();
-          },
-          { once: true }
-        );
+        playAlarm();
       }
     }, 1000);
     timerBtn.dataset.timerState = "play";
   }
 
+  function playAlarm() {
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: "Danger Alarm",
+        artist: SITE_CONFIG.title,
+        album: "Alerts",
+      });
+    }
+
+    alarm.play();
+    timerBtn.dataset.timerState = "alarm";
+  }
+
   timerBtn.addEventListener("click", () => {
+    alarm.play().catch(() => {});
+    alarm.pause();
+    alarm.currentTime = 0;
+
     if (intervalId !== null || timerBtn.dataset.timerState === "alarm") {
       resetTimer();
     } else {
       startCountdown(45);
     }
+  });
+
+  alarm.addEventListener("ended", () => {
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = null;
+    }
+    resetTimer();
   });
 </script>
