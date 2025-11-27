@@ -1,6 +1,46 @@
 @import "tailwindcss";
 
-/* @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  color-scheme: light;
+}
+
 html.dark {
   color-scheme: dark;
-} */
+}
+
+.progress-ring {
+  --size: 8rem;
+  --track-width: 0.25em;
+  --track-color: var(--color-neutral-700);
+  --indicator-width: var(--track-width);
+  --indicator-color: var(--color-blue-500);
+  --indicator-transition-duration: 0.35s;
+  --precentage: 1;
+}
+
+.track,
+.indicator {
+  --radius: calc(var(--size) / 2 - max(var(--track-width), var(--indicator-width)) * 0.5);
+  --circumference: calc(var(--radius) * 2 * 3.141592654);
+  fill: none;
+  r: var(--radius);
+  cx: calc(var(--size) / 2);
+  cy: calc(var(--size) / 2);
+}
+
+.track {
+  stroke: var(--track-color);
+  stroke-width: var(--track-width);
+}
+
+.indicator {
+  stroke: var(--indicator-color);
+  stroke-width: var(--indicator-width);
+  stroke-linecap: round;
+  transition-property: stroke-dashoffset;
+  transition-duration: var(--indicator-transition-duration);
+  stroke-dasharray: var(--circumference) var(--circumference);
+  stroke-dashoffset: calc(var(--circumference) - var(--percentage) * var(--circumference));
+}

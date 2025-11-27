@@ -25,9 +25,9 @@ const canonicalURL = new URL(Astro.url);
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={SITE_CONFIG.title} />
 <meta property="og:description" content={SITE_CONFIG.description} />
-<!-- <meta property="og:image" content={image} />
-<meta property="og:image:width" content="1400" />
-<meta property="og:image:height" content="1400" /> -->
+<meta property="og:image" content="/meta.png" />
+<meta property="og:image:width" content="1080" />
+<meta property="og:image:height" content="1080" />
 <meta property="og:image:alt" content={SITE_CONFIG.description} />
 
 <!-- Twitter -->
@@ -35,9 +35,16 @@ const canonicalURL = new URL(Astro.url);
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={SITE_CONFIG.title} />
 <meta property="twitter:description" content={SITE_CONFIG.description} />
-<!-- <meta name="twitter:image" content={image} /> -->
+<meta name="twitter:image" content="/meta.png" />
 <meta name="twitter:image:alt" content={SITE_CONFIG.description} />
 
 <script>
-  document.documentElement.classList.toggle("dark", localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  import { LS_KEY_THEME } from "@constants";
+
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const storedTheme = localStorage.getItem(LS_KEY_THEME);
+
+  const isDark = storedTheme === "dark" || (!storedTheme && prefersDark);
+
+  document.documentElement.classList.toggle("dark", isDark);
 </script>

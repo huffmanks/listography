@@ -3,13 +3,13 @@ import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 ---
 
-<html lang="en">
+<html class="size-full" lang="en">
   <head>
     <Head />
   </head>
-  <body class="dark:bg-neutral-900 dark:text-neutral-100 text-neutral-900 bg-neutral-100">
+  <body class="dark:bg-neutral-900 dark:text-neutral-100 text-neutral-900 bg-neutral-100 size-full">
     <Header />
-    <main class="mx-auto max-w-(--breakpoint-sm) px-3 py-6">
+    <main class="mx-auto max-w-md px-3 pt-18 pb-8">
       <slot />
     </main>
   </body>
