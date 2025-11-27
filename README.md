@@ -1,43 +1,19 @@
-# Astro Starter Kit: Minimal
+# Listography
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+May The Best List Win!
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## General rules
 
-## 🚀 Project Structure
+For each round, write 5 items that match the topic. First player to get to 30 points wins.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Card types
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Common
+  - **RULE:** Try to match as <u>**MANY**</u> players as possible.
+  - **SCORING:** Get <u>**ONE point**</u> for every answer that appears on another player’s list.
+- Rare
+  - **RULE:** Try to match only <u>**ONE**</u> other player.
+  - **SCORING:** Get <u>**ONE point**</u> for every answer that matches one other player.
+- Unique
+  - **RULE:** Try to match <u>**NO**</u> other players.
+  - **SCORING:** Get <u>**ONE point**</u> for every valid answer that no other player wrote.
