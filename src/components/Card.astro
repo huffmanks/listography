@@ -15,20 +15,36 @@ const cards = collectionCards.flatMap((c) => c.data);
       type="button"
       class="-mt-2 inline-flex w-full items-center cursor-pointer justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border text-neutral-100 dark:text-neutral-900 bg-neutral-900 dark:bg-neutral-100 shadow-xs dark:hover:bg-neutral-200 hover:bg-neutral-800 border-transparent h-10 px-6 py-2 has-[>svg]:px-4">
       <span>Next card</span>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        ><path d="M21 4v16"></path><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"></path></svg
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        ><path d="M21 4v16"></path><path
+          d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"></path></svg
       >
     </button>
   </div>
   <div class="flex items-center justify-center mb-4">
     <div class="progress-ring inline-flex items-center justify-center relative">
       <svg class="size-32 -rotate-90 origin-[50%_50%] content">
-        <text x="50%" y="33%" text-anchor="middle" class="font-bold text-4xl fill-current/70" transform="rotate(90 50 50)">45s</text>
+        <text
+          x="50%"
+          y="33%"
+          text-anchor="middle"
+          class="font-bold text-4xl fill-current/70"
+          transform="rotate(90 50 50)">45s</text
+        >
         <circle class="track"></circle>
         <circle class="indicator"></circle>
       </svg>
 
-      <div class="absolute top-[85%] left-1/2 -translate-x-1/2 -translate-y-[85%]">
+      <div class="absolute top-[85%] left-1/2 -translate-x-1/2 translate-y-[-85%]">
         <button
           id="timer-btn"
           type="button"
@@ -44,7 +60,8 @@ const cards = collectionCards.flatMap((c) => c.data);
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path></svg
+            stroke-linejoin="round"
+            ><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path></svg
           >
           <svg
             class="fill-current group-data-[timer-state=play]:block hidden"
@@ -70,7 +87,8 @@ const cards = collectionCards.flatMap((c) => c.data);
             stroke-linecap="round"
             stroke-linejoin="round"
             ><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M22 8c0-2.3-.8-4.3-2-6"></path><path
-              d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path><path d="M4 2C2.8 3.7 2 5.7 2 8"></path></svg
+              d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"
+            ></path><path d="M4 2C2.8 3.7 2 5.7 2 8"></path></svg
           >
         </button>
       </div>
@@ -203,7 +221,7 @@ const cards = collectionCards.flatMap((c) => c.data);
   const svg = ring.querySelector("svg") as SVGElement;
   const alarm = new Audio("/danger-alarm.mp3");
 
-  let textEl = svg.querySelector("text") as SVGTextElement;
+  const textEl = svg.querySelector("text") as SVGTextElement;
 
   let intervalId: number | null = null;
 
